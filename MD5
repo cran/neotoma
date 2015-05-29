@@ -1,7 +1,7 @@
-b0f77d8880bb58b84a296972647de48b *DESCRIPTION
+aa8d167149657660626c3147ff25d30f *DESCRIPTION
 d7c4814a53c2c02fa914b6fa3c5a0618 *LICENSE
-d2099a26e79235467bd5905bacb1cee8 *NAMESPACE
-fb9067b4cfbb85b36f31b65545983524 *NEWS
+ef913e1b282f415fc6ffdde84ecf3457 *NAMESPACE
+aa731a7640d33454ca1ca43279c29214 *NEWS
 5cff7644f2e70b9854626bcb5c9b2757 *R/bind.R
 093204fb5cad48aad32a6a0537cca17f *R/clamodel.R
 14acb724b1775ceb33f16bc07390e562 *R/compile_downloads.R
@@ -9,7 +9,7 @@ fb9067b4cfbb85b36f31b65545983524 *NEWS
 e957fb423adabe22630c14a1194f527b *R/compile_taxa.R
 66b82a47a5c11cbe057ed04e0a8e4cf6 *R/counts.R
 0fd9d60e51bc2da2fc9d88269e7ec235 *R/download.R
-645c4fe1a165e6249cdcc38495f53dda *R/get_chroncontrol.R
+48973e9789f227b499a861e8fab8eae8 *R/get_chroncontrol.R
 b594ec703077d173a7e613bcd257b63c *R/get_contact.R
 9d79d13da4c8f2afe24c38e577d2542e *R/get_contacts.R
 2e1a8238349d872d876264acfb910b3d *R/get_dataset.R
@@ -34,12 +34,12 @@ a0f69b7ba04253cb37b688df7e22ad6f *R/print.download.R
 5f75bc093662ce2f9bd194381a928b01 *R/sysdata.rda
 c325e36e26272f4b2a35d2a50fff70c2 *R/taxon.table.R
 2272902bafcdb013f644a4fe0efe674a *R/translate.table.R
-b63bfd02ce835b1c39a68abcc05be70a *R/write_agefile.R
-dd66c459b47405f81a5ea682f395e3da *README.md
+d38b0a4f3e8b9f4b057abce6f9a0327a *R/write_agefile.R
+65c02cc71e2f314f9b3b28fbdfb42746 *README.md
 b53ff17bad83dd1794d8f01dc6a355a2 *inst/CITATION
 999dabd39530819268ccd5cb1d9e15b7 *inst/doc/Thumbs.db
 83245841f66f4b8b05fe7b9982b8a253 *inst/img/Thumbs.db
-6c81ee1bbea206b6e626454d8b8e5338 *inst/img/histogramplot.png
+caf6f9d2a2c5eed510ee54dd965eaa9c *inst/img/histogramplot.png
 913399dccd48a7274eaf57f63872339c *inst/img/mammothsites.png
 7f6458a03a38606820d15e216250fb8b *man/bind.Rd
 ff96d2f92b190e80d3757b048b9a599b *man/compile_downloads.Rd
@@ -47,7 +47,10 @@ ff96d2f92b190e80d3757b048b9a599b *man/compile_downloads.Rd
 caa9f99f50e8edd2f3675d25ca2b40e3 *man/compile_taxa.Rd
 0ed63bca1353c28c1046b9c671baf11f *man/counts.Rd
 ef1ec87aabbc83a01b318925efad1064 *man/download.Rd
-e95247fc878428e341ef26ad56112e48 *man/get_chroncontrol.Rd
+de9b55ee06b34182a6dd2eb0b6b04202 *man/get_chroncontrol.Rd
+854321fb696f8be71b0fd209223305a4 *man/get_chroncontrol.default.Rd
+bcab1c6fbad104c443416062de4a7dbb *man/get_chroncontrol.download.Rd
+2631416fc45ef6625ae08988ce75f2aa *man/get_chroncontrol.download_list.Rd
 d37fae6ed6355a9010dc57e6b14cd7b0 *man/get_contact.Rd
 fb280fef9ec156aafcd337a1315b82da *man/get_contacts.Rd
 7fdfb8233ee303379d8687645b25e38e *man/get_dataset.Rd
@@ -89,5 +92,5 @@ f95d2915aedff25e83baa43489a8edc7 *man/translate.table.Rd
 c8d0d26604aa83d0221089794ba0eebe *man/write_agefile.Rd
 ed3898c3c0a23e5a3b26f51fed3e8829 *tests/test-all.R
 f7b7395e41959b5842966e56a9993c5c *tests/testthat/test_examples.R
-5039ca544383589b83cba665abb8d4b2 *tests/testthat/test_neotoma.R
+08a6a63ffa42a77fe019dc9228a478d0 *tests/testthat/test_neotoma.R
 b8640138437bc3fac8be0ae68db45eaa *tests/testthat/test_simple_paper.R
