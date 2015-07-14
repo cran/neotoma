@@ -30,7 +30,7 @@
 #' t8kyr.datasets <- get_dataset(taxonname='*Pseudotsuga*', loc=c(-150, 20, -100, 60),
 #'                               ageyoung = 8000)
 #'
-#' #  Returns 87 records (as of 01/08/2015).  These are the pollen records though, we want the sites:
+#' #  Returns 116 records (as of 13/07/2015).  These are the pollen records though, we want the sites:
 #' geochron.records <- get_geochron(get_site(t8kyr.datasets))
 #'
 #' #  We want to extract all the radiocarbon ages from the records:
@@ -44,7 +44,7 @@
 #'
 #' radio.chron <- unlist(sapply(geochron.records, get_ages))
 #'
-#' hist(radio.chron, breaks=seq(0, 40000, by = 500),
+#' hist(radio.chron[radio.chron<40000], breaks=seq(0, 40000, by = 500),
 #'      main = 'Distribution of radiocarbon dates for Pseudotsuga records',
 #'      xlab = 'Radiocarbon date (14C years before 1950)')
 #' }
@@ -168,8 +168,6 @@ get_geochron.dataset_list <- function(x, verbose = TRUE){
   # call. Use missing() to check for presence of argument
   # and then process as per usual
   
-  datasetid <- unlist(lapply(x, FUN=function(x)x$dataset$dataset.id))
-  
   dataset.types <- unlist(lapply(x, FUN=function(x)x$dataset$dataset.type))
   
   if(any(!dataset.types%in%'geochronologic')){
@@ -203,8 +201,6 @@ get_geochron.dataset_list <- function(x, verbose = TRUE){
 get_geochron.site <- function(x, verbose = TRUE){
   
   dataset <- get_dataset(x)
-  
-  datasetid <- unlist(lapply(dataset, FUN=function(x)x$dataset.meta$dataset.id))
   
   dataset.types <- unlist(lapply(dataset, FUN=function(x)x$dataset.meta$dataset.type))
   
