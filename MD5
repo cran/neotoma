@@ -1,7 +1,7 @@
-fa3404bda83dad5d6ff96fc65f4c8d88 *DESCRIPTION
+28839da7767d5fab671834d5ef5bf291 *DESCRIPTION
 d7c4814a53c2c02fa914b6fa3c5a0618 *LICENSE
 342389a0caf92604844bd3bcc19dd99d *NAMESPACE
-71dc3776024a34cc79c2a5f2e98671ef *NEWS
+a39fc72c5775c1c45535f130f743b9a4 *NEWS
 5cff7644f2e70b9854626bcb5c9b2757 *R/bind.R
 77cd588c2dd8c4dccffe6be5c62f37ed *R/browse.R
 093204fb5cad48aad32a6a0537cca17f *R/clamodel.R
@@ -14,7 +14,7 @@ b594ec703077d173a7e613bcd257b63c *R/get_contact.R
 9d79d13da4c8f2afe24c38e577d2542e *R/get_contacts.R
 2e1a8238349d872d876264acfb910b3d *R/get_dataset.R
 5c523f17c2d28cf838ec6e8295ecf57c *R/get_datasets.R
-5db379d7eb00fe0361054581cbfe70e6 *R/get_download.R
+519bca1c90bddd9fede1c5298df2d568 *R/get_download.R
 7f6f06b5690317d164053fd597015ba9 *R/get_geochron.R
 d52b2018177cdeb91b0e674d72de99f0 *R/get_publication.R
 b17fcb2512bf8e07a87b146323f6c506 *R/get_site.R
@@ -35,7 +35,7 @@ a0f69b7ba04253cb37b688df7e22ad6f *R/print.download.R
 c325e36e26272f4b2a35d2a50fff70c2 *R/taxon.table.R
 2272902bafcdb013f644a4fe0efe674a *R/translate.table.R
 6d9b1de5c440c52641a043acef42555d *R/write_agefile.R
-0312ea32d0b5166a1a871337b7fa6745 *README.md
+f4b736d9b775a14322c49761f6dab6d7 *README.md
 b53ff17bad83dd1794d8f01dc6a355a2 *inst/CITATION
 caf6f9d2a2c5eed510ee54dd965eaa9c *inst/img/histogramplot.png
 913399dccd48a7274eaf57f63872339c *inst/img/mammothsites.png
@@ -95,5 +95,5 @@ f95d2915aedff25e83baa43489a8edc7 *man/translate.table.Rd
 64ae7f82f049b0b565ba737c08ca64e1 *man/write_agefile.Rd
 ed3898c3c0a23e5a3b26f51fed3e8829 *tests/test-all.R
 f26967c3fe3177c6de671eaa30536c56 *tests/testthat/test_examples.R
-1c4b2c315b572abfaac320bdbb510231 *tests/testthat/test_neotoma.R
+02d1c088b84eb979b002936104cfad93 *tests/testthat/test_neotoma.R
 b8640138437bc3fac8be0ae68db45eaa *tests/testthat/test_simple_paper.R
