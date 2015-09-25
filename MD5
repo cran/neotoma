@@ -1,7 +1,7 @@
-d3a81c1ccb198cfdbf2712821400a9c9 *DESCRIPTION
+e107c4bcfa3192e805d26e7ca011de13 *DESCRIPTION
 d7c4814a53c2c02fa914b6fa3c5a0618 *LICENSE
-342389a0caf92604844bd3bcc19dd99d *NAMESPACE
-2ae2e40a27ada7995a5dc9e0ea82e23c *NEWS
+c8b0ac737ab21845a3e3ffd248a6e74f *NAMESPACE
+85be1246decf27123825393099e0c174 *NEWS
 5cff7644f2e70b9854626bcb5c9b2757 *R/bind.R
 77cd588c2dd8c4dccffe6be5c62f37ed *R/browse.R
 093204fb5cad48aad32a6a0537cca17f *R/clamodel.R
@@ -14,7 +14,7 @@ b594ec703077d173a7e613bcd257b63c *R/get_contact.R
 9d79d13da4c8f2afe24c38e577d2542e *R/get_contacts.R
 5327f9133c9b63bf634d5e9fd8f6339b *R/get_dataset.R
 5c523f17c2d28cf838ec6e8295ecf57c *R/get_datasets.R
-114167af620aa5311ccd095fffce8934 *R/get_download.R
+25816a1f92a66f8227f514c45c11664a *R/get_download.R
 7f6f06b5690317d164053fd597015ba9 *R/get_geochron.R
 d52b2018177cdeb91b0e674d72de99f0 *R/get_publication.R
 b17fcb2512bf8e07a87b146323f6c506 *R/get_site.R
@@ -23,6 +23,7 @@ a7002306a23e05a0fd53f2def9f0ed73 *R/get_table.R
 24ffd366cb4e955c707103e94105718a *R/get_taxa.R
 c838f36ceac776a729042ad67a67c0d1 *R/gp.table.R
 153ef2e322470b18ccee6e3aa91cd501 *R/param_check.R
+5f765aea52e13ec5bdcfcbbc172ee99b *R/plot-methods.R
 8e92fa582fc18ca7dbd090d33d3c2bbb *R/pollen.equiv.R
 b6376934b1a6bbe00ce4a07103005308 *R/print.dataset.R
 25d7b46473bf1376d26575706a7303a2 *R/print.dataset_list.R
@@ -35,9 +36,10 @@ e61723594de36f568fc4cee4c2f51972 *R/sysdata.rda
 c325e36e26272f4b2a35d2a50fff70c2 *R/taxon.table.R
 2272902bafcdb013f644a4fe0efe674a *R/translate.table.R
 6d9b1de5c440c52641a043acef42555d *R/write_agefile.R
-bd25153a769505904eb07571ce9d3718 *README.md
+7432633dbfef52a8f53568dc933e0325 *README.md
 b53ff17bad83dd1794d8f01dc6a355a2 *inst/CITATION
 0713dd5f972b6b98f64b7b613f624f8b *inst/crystal.tlx
+045001ce1a2b794e3c21b1da98a47e9a *inst/img/Thumbs.db
 caf6f9d2a2c5eed510ee54dd965eaa9c *inst/img/histogramplot.png
 913399dccd48a7274eaf57f63872339c *inst/img/mammothsites.png
 7f6458a03a38606820d15e216250fb8b *man/bind.Rd
