@@ -3,7 +3,8 @@
 #' Using the dataset ID, return all geochronological data associated with the dataID.  At present,
 #'    only returns the dataset in an unparsed format, not as a data table.   This function will only download one dataset at a time.
 #'
-#' @importFrom RJSONIO fromJSON
+#' @importFrom jsonlite fromJSON
+#' @importFrom httr GET content
 #' @param x A numeric dataset ID or a vector of numeric dataset IDs, or an object of class of class \code{site}, \code{dataset}, \code{dataset_list}, \code{download} or \code{download_list} for which geochrons are required.
 #' @param verbose logical; should messages on API call be printed?
 #' 
@@ -58,7 +59,8 @@ get_geochron <- function(x, verbose = TRUE){
   UseMethod('get_geochron')
 }
 
-#' @importFrom RJSONIO fromJSON
+#' @importFrom jsonlite fromJSON
+#' @importFrom httr GET content
 #' @export
 get_geochron.default <- function(x, verbose = TRUE){
 
@@ -71,13 +73,13 @@ get_geochron.default <- function(x, verbose = TRUE){
   # one or more geochronologies at a time.
   get_sample <- function(x){
     
-    #dataset <- get_dataset(x)  #### This is the problem here!!
-    
-    base.uri <- 'http://api.neotomadb.org/v1/apps/geochronologies/'
+    base.uri <- 'http://api.neotomadb.org/v1/apps/geochronologies'
     
     # query Neotoma for data set
-    aa <- try(fromJSON(paste0(base.uri, '?datasetid=', x), nullValue = NA))
-
+    neotoma_content <- httr::content(httr::GET(paste0(base.uri, '/?datasetid=', x)), as = "text")
+    if (identical(neotoma_content, "")) stop("")
+    aa <- jsonlite::fromJSON(neotoma_content, simplifyVector = FALSE)
+    
     # Might as well check here for error and bail
     if (inherits(aa, "try-error"))
         return(aa)
@@ -89,24 +91,71 @@ get_geochron.default <- function(x, verbose = TRUE){
              call. = FALSE)
     }
 
-    if (isTRUE(all.equal(aa[[1]], 1) & length(aa[[2]]) == 0)) {
+    if (isTRUE(all.equal(aa[[1]], 1) & length(aa[[2]]$Samples) == 0)) {
       # The API returned a record, but the record did not
       # have associated geochronology information.
-      stop('No geochronological record is associated with this sample',
+      stop(paste0('No geochronological record is associated with dataset ',x,'.'),
            call. = FALSE)
     }
 
     if (isTRUE(all.equal(aa[[1]], 1) & length(aa[[2]]) > 0)) {
       # The API returned a record with geochron data.
       aa <- aa[[2]]
-
+      
+      rep_NULL <- function(x){ 
+        if(is.null(x)){NA}
+        else{
+          if(class(x) == 'list'){
+            lapply(x, rep_NULL)
+          } else {
+            return(x)
+          }
+        }
+      }
+      
+      aa <- lapply(aa, function(x)rep_NULL(x))
+      
       if (verbose) {
           message(strwrap(paste0("API call was successful.")))
       }
 
       # If there are actual stratigraphic samples
       # with data in the dataset returned.
-
+      
+      # We have to pull the dataset information from the `download`:
+      dl <- try(jsonlite::fromJSON(paste0('http://api.neotomadb.org/v1/data/downloads/', x)))[[2]]
+      
+      dl <- lapply(dl, function(x)rep_NULL(x))
+      
+      dataset <- list(
+        site.data = data.frame(site.id = dl$Site$SiteID,
+                               site.name = dl$Site$SiteName,
+                               long = mean(unlist(dl$Site[c('LongitudeWest', 'LongitudeEast')]),
+                                           na.rm = TRUE),
+                               lat = mean(unlist(dl$Site[c('LatitudeNorth', 'LatitudeSouth')]),
+                                          na.rm = TRUE),
+                               elev = dl$Site$Altitude,
+                               description = dl$Site$SiteDescription,
+                               long.acc = abs(dl$Site$LongitudeWest - dl$Site$LongitudeEast),
+                               lat.acc = abs(dl$Site$LatitudeNorth - dl$Site$LatitudeSouth),
+                               row.names = dl$Site$SiteName,
+                               stringsAsFactors = FALSE),
+        dataset.meta = data.frame(dataset.id = dl$DatasetID,
+                                  dataset.name = dl$DatasetName,
+                                  collection.type = dl$CollUnitType,
+                                  collection.handle = dl$CollUnitHandle,
+                                  dataset.type =  dl$DatasetType,
+                                  stringsAsFactors = FALSE),
+        pi.data = do.call(rbind.data.frame,
+                          dl$DatasetPIs),
+        submission = data.frame(submission.date = strptime(dl$NeotomaLastSub,
+                                                           '%m/%d/%Y'),
+                                submission.type = 'Last submission to Neotoma',
+                                stringsAsFactors=FALSE),
+        access.date = Sys.time())
+      
+      class(dataset) <- c('dataset', 'list')
+      
       pull.rec <- function(x){
 
         data.frame(sample.id = x$SampleID,
@@ -125,15 +174,28 @@ get_geochron.default <- function(x, verbose = TRUE){
                    stringsAsFactors = FALSE)
       }
 
-      out <- list(x, do.call(rbind.data.frame, lapply(aa, pull.rec)))
-      
+      out <- list(dataset = dataset, 
+                  geochron   = do.call(rbind.data.frame, lapply(aa[[1]], pull.rec)))
       class(out) <- c('geochronologic', 'list')
+      
+      out
     }
 
     out
   }
-
-  lapply(x, function(x)try(get_sample(x)))
+  
+  out <- lapply(x, function(x)try(get_sample(x)))
+  for(i in length(out):1){if('try-error' %in% class(out[[i]]))out[[i]] <- NULL}
+  
+  if(length(out) == 0){
+    # It's possible that we had some successes, if not then we need to return
+    # an error.
+    stop('There were no geochronological records returned.', call.=FALSE)
+  }
+  
+  class(out) <- c('geochronologic_list', 'list')
+  
+  out
 
 }
 

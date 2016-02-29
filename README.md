@@ -3,18 +3,21 @@ neotoma
 
 [![Build Status](https://api.travis-ci.org/ropensci/neotoma.png)](https://travis-ci.org/ropensci/neotoma)
 [![Build status](https://ci.appveyor.com/api/projects/status/t2xyqbs0d8h998cb/branch/master)](https://ci.appveyor.com/project/sckott/neotoma/branch/master)
-[![rstudio mirror downloads](http://cranlogs-dev.r-pkg.org/badges/neotoma)](https://github.com/metacran/cranlogs.app)
+[![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/neotoma)](https://github.com/metacran/cranlogs.app)
 [![cran version](http://www.r-pkg.org/badges/version/neotoma)](http://cran.rstudio.com/web/packages/neotoma)
 
 The `neotoma` package is a programmatic R interface to the [Neotoma Paleoecological Database](http://www.neotomadb.org/). The package is intended to both allow users to search for sites and to download data for use in analyical workflows of paleoecological research.
 
-`neotoma` is part of the [rOpenSci](http://ropensci.org) project and is also hosted on [Figshare](http://dx.doi.org/10.6084/m9.figshare.677131).  The `neotoma` is also available on [CRAN](http://cran.r-project.org/web/packages/neotoma/index.html) as of May 3, 2015.
+`neotoma` is part of the [rOpenSci](http://ropensci.org) project and is also hosted on [Figshare](http://dx.doi.org/10.6084/m9.figshare.677131).  The `neotoma` package is also available on [CRAN](http://cran.r-project.org/web/packages/neotoma/index.html) as of May 3, 2015.
 
 For more information on the package please refer to: 
 
 Goring, S., Dawson, A., Simpson, G. L., Ram, K., Graham, R. W., Grimm, E. C., & Williams, J. W.. (2015). neotoma: A Programmatic Interface to the Neotoma Paleoecological Database. *Open Quaternary*, 1(1), Art. 2. DOI: [10.5334/oq.ab](http://doi.org/10.5334/oq.ab)
 
 ### Development
+
+*We welcome contributions from any individual, whether code, documentation, or issue tracking.  All participants are expected to follow the [code of conduct](http://github.com/ROpensci/neotoma/code_of_conduct.md) for this project.*
+
 + [Simon Goring](http://downwithtime.wordpress.com) - University of Wisconsin-Madison, Department of Geography
 
 ### Contributors
@@ -24,6 +27,23 @@ Goring, S., Dawson, A., Simpson, G. L., Ram, K., Graham, R. W., Grimm, E. C., & 
 + [Luke Sosalla](https://github.com/sosalla) - University of Wisconsin, Department of Geography
 
 Package functions resolve various Neotoma APIs and re-form the data returned by the Neotoma database into R data objects.  The format of the Neotoma data, and the actual API functions can be accessed on the Neotoma API [website](http://api.neotomadb.org/doc/resources/home).
+
+If you have used the package please consider providing us feedback through a [short survey](https://docs.google.com/forms/d/1NFKtmP43_b56S8AUZnrzYfJqWSDnDuXQr7rhIYKRkt0/viewform).
+
+### Install `neotoma`
+
++ CRAN:
+```r
+install.packages('neotoma')
+```
+
++ Development version from GitHub:
+```r
+install.packages("devtools")
+library(devtools)
+install_github("ropensci/neotoma")
+library(neotoma)
+```
 
 ### Currently implemented in `neotoma`
 
@@ -40,6 +60,8 @@ More functions are available through the package help.  These represent the core
 + `get_chroncontrol` - Get chronological information used to build the age-depth model for the record. [API](http://api.neotomadb.org/doc/resources/chroncontrol)
 
 ### Recent Changes
++ 1.5.0: More extensive testing to support multiple dataset types.  Water chemistry datasets still unsupported. Function `read.tilia` added to read Tilia (http://tiliait.com) style XML files. Moved to using `xml2`, `httr` and `jsonlite` to support parsing.
++ 1.4.1: Small changes to `get_geochron` to address bug reports and improve object `printing` methods.
 + 1.4.0: Added `plot` method for datasets, sites & downloads.  Fixed a bug with records missing chronologies.
 + 1.3.3: Modified `get_download` to ensure the default chronolgy is always associated with `sample.meta`.  Bugfix for issue [#187](https://github.com/ropensci/neotoma/issues/187).  Empty `dataset_list`s now return a NULL value and a warning.
 + 1.3.2: Bugfix for `get_download`, assignment to the `dataset.id` was incorrectly placed causing the columns to be out of place relative to the data (see issue [#197](https://github.com/ropensci/neotoma/issues/197)).
@@ -48,21 +70,6 @@ More functions are available through the package help.  These represent the core
 + 1.2-1: Fix for empty `chroncontrol` tables [issue 178](https://github.com/ropensci/neotoma/issues/178).  Added new methods for `get_chroncontrols` to streamline access from `download` and `download_list` objects.
 + 1.2-0: Added a set of new datasettypes to reflect the increasing breadth of the Neotoma Database.
 + 1.2-0: Fixed bugs relates to the gpid parameter in `get_dataset`.
-
-### Install `neotoma`
-
-+ CRAN:
-```r
-install.packages('neotoma')
-```
-
-+ Development version from GitHub:
-```r
-install.packages("devtools")
-library(devtools)
-install_github("ropensci/neotoma")
-library(neotoma)
-```
 
 ### A few examples
 
@@ -98,7 +105,7 @@ points(site.locs$long, site.locs$lat, pch=19, cex=0.5, col='red')
 ```
 ![thing](inst/img/mammothsites.png)
 
-### Plot the proportion of publications per year for datasets in Neotoma
+#### Plot the proportion of publications per year for datasets in Neotoma
 
 ```R
 # Requires ggplot2
@@ -120,10 +127,17 @@ ggplot(data=pub.years, aes(x = year)) +
 
 ![thing](inst/img/histogramplot.png)
 
-### Cumulative plot of record uploads to Neotoma since 1998.
-Found on [this gist](https://gist.github.com/SimonGoring/718a654f304f2d16ce4b)
+#### Cumulative plot of record uploads to Neotoma since 1998.
 
-### 
+Found at [this gist](https://gist.github.com/SimonGoring/718a654f304f2d16ce4b)
+
+![cumulativerecords](https://cloud.githubusercontent.com/assets/1619126/9884174/0026b83a-5ba4-11e5-9f1a-4a6874ceceb6.png)
+
+#### Obtain records & Rebuild Chronologies with Bacon
+
+Found at [this gist](https://gist.github.com/SimonGoring/877dd71cc3ad6bf8531e).  Prepared in part for a Bacon (Blaauw & Christen, 2011) workshop at the 2015 International Limnogeology Conference in Reno-Tahoe, Nevada led by Amy Myrbo (University of Minnesota).
+
+###
 ---
 
 [![](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)

@@ -4,8 +4,8 @@
 #' \code{get_site} returns site information from the Neotoma Paleoecological Database
 #'    based on parameters defined by the user.
 #'
-#' @importFrom RJSONIO fromJSON
-#' @importFrom RCurl getForm
+#' @importFrom jsonlite fromJSON
+#' @importFrom httr content GET
 #' @param sitename character string representing the full or partial site name, or an object of class \code{dataset}, \code{dataset_list}, \code{download} or \code{download_list}
 #' @param altmin Minimum site altitude  (in m).
 #' @param altmax Maximum site altitude (in m).
@@ -42,19 +42,21 @@
 #' API Reference:  http://api.neotomadb.org/doc/resources/sites
 #' @keywords IO connection
 #' @export
-get_site <- function(sitename, altmin, altmax, loc, gpid, ...){
+get_site <- function(sitename, altmin, altmax, loc, gpid, ...) {
   UseMethod('get_site')
   
 }
 
 #' @title Return Site Information.
 #' @description Return site information from the Neotoma Paleoecological Database.
-#'
+#' @importFrom jsonlite fromJSON
+#' @importFrom httr content GET
+
 #' @param sitename A character string representing the full or partial site name.
 #' @param ... Arguments passed from the generic method, not used.
 #' 
 #' @export
-get_site.default <- function(sitename, ...){
+get_site.default <- function(sitename, ...) {
 
   base.uri <- 'http://api.neotomadb.org/v1/data/sites'
 
@@ -65,45 +67,70 @@ get_site.default <- function(sitename, ...){
 
   #  Pass the parameters to param_check to make sure everything is kosher.
   error_test <- param_check(cl)
-  if(error_test[[2]]$flag == 1){
+  if (error_test[[2]]$flag == 1) {
     stop(paste0(unlist(error_test[[2]]$message), collapse='\n  '))
   } else{
     cl <- error_test[[1]]
   }
-
-  neotoma.form <- getForm(base.uri, .params = cl)
-  aa <- try(fromJSON(neotoma.form, nullValue = NA))
-
-  if (aa[[1]] == 0){
+  
+  neotoma_content <- content(GET(base.uri, query = cl), as = "text")
+  
+  if (identical(neotoma_content, "")) stop("")
+  
+  aa <- jsonlite::fromJSON(neotoma_content, simplifyVector = FALSE)
+  
+  if (aa[[1]] == 0) {
     stop(paste('Server returned an error message:\n', aa[[2]]), call. = FALSE)
   }
-  if (aa[[1]] == 1){
+  if (aa[[1]] == 1) {
     aa <- aa[[2]]
+    
+    rep_NULL <- function(x) { 
+      if (is.null(x)) {NA}
+      else{
+        if (class(x) == 'list') {
+          lapply(x, rep_NULL)
+        } else {
+          return(x)
+        }
+      }
+    }
+    
+    aainsta <- rep_NULL(aa)
+    
+    if (length(aa) == 0) {
+      cat('The API call was successful, but no records were returned.\n')
+      return()
+    }
+    
     cat('The API call was successful, you have returned ',
         length(aa), 'records.\n')
+    
   }
 
-  if (class(aa) == 'try-error'){
-     output <- neotoma.form
+  if (class(aa) == 'try-error') {
+     output <- aa
   } else {
-    names(aa) <- sapply(aa, `[[`, "SiteName")
-    # This is much faster by direct calling of the data frame method
-    # of rbind
-    output <- do.call(rbind.data.frame, aa)
-    # but we need to fix-up some characters that R changed to factors
-    output$SiteName <- as.character(output$SiteName)
-    output$SiteDescription <- as.character(output$SiteDescription)
-
-    output <- data.frame(site.id = output$SiteID,
-                site.name = output$SiteName,
-                long = rowMeans(output[, c('LongitudeWest', 'LongitudeEast')],
-                                na.rm = TRUE),
-                lat = rowMeans(output[,c('LatitudeNorth', 'LatitudeSouth')],
-                               na.rm = TRUE),
-                elev = output$Altitude,
-                description = output$SiteDescription,
-                long.acc = abs(output$LongitudeWest - output$LongitudeEast),
-                lat.acc = abs(output$LatitudeNorth - output$LatitudeSouth))
+    
+    # replace NULL values:
+    aa <- lapply(aa, function(x) ifelse(x == "NULL", NA, x))
+    
+    output <- data.frame(site.id = sapply(aa, '[[', 'SiteID'),
+                         site.name = sapply(aa, '[[', 'SiteName'),
+                         long = rowMeans(data.frame(sapply(aa, '[[', 'LongitudeWest'), 
+                                                    sapply(aa, '[[', 'LongitudeEast')),
+                                         na.rm = TRUE),
+                         lat = rowMeans(data.frame(sapply(aa, '[[', 'LatitudeNorth'),
+                                                   sapply(aa, '[[', 'LatitudeSouth')),
+                                        na.rm = TRUE),
+                         elev = sapply(aa, '[[', 'Altitude'),
+                         description = sapply(aa, '[[', 'SiteDescription'),
+                         long.acc = abs(sapply(aa, '[[', 'LongitudeWest') - 
+                                          sapply(aa, '[[', 'LongitudeEast')),
+                         lat.acc = abs(sapply(aa, '[[', 'LatitudeNorth') - 
+                                         sapply(aa, '[[', 'LatitudeSouth')),
+                         stringsAsFactors = FALSE)
+    
   }
 
   class(output) <- c('site', 'data.frame')
@@ -118,7 +145,7 @@ get_site.default <- function(sitename, ...){
 #' @param sitename An object of class \code{dataset}.
 #' @param ... Arguments passed from the generic method, not used.
 #' @export
-get_site.dataset <- function(sitename, ...){
+get_site.dataset <- function(sitename, ...) {
   site <- sitename$site.data
   class(site) <- c('site', 'data.frame')
   site
@@ -130,7 +157,7 @@ get_site.dataset <- function(sitename, ...){
 #' @param sitename An object of class \code{dataset_list}.
 #' @param ... Arguments passed from the generic method, not used.
 #' @export
-get_site.dataset_list <- function(sitename, ...){
+get_site.dataset_list <- function(sitename, ...) {
   site <- do.call(rbind.data.frame,lapply(sitename, '[[', 'site.data'))
   class(site) <- c('site', 'data.frame')
   site
@@ -142,7 +169,7 @@ get_site.dataset_list <- function(sitename, ...){
 #' @param sitename An object of class \code{download}.
 #' @param ... Arguments passed from the generic method, not used.
 #' @export
-get_site.download <- function(sitename, ...){
+get_site.download <- function(sitename, ...) {
 
   site <- sitename$dataset$site.data
   
@@ -156,7 +183,7 @@ get_site.download <- function(sitename, ...){
 #' @param sitename An object of class \code{download_list}.
 #' @param ... Arguments passed from the generic method, not used.
 #' @export
-get_site.download_list <- function(sitename, ...){
+get_site.download_list <- function(sitename, ...) {
   
   site <- do.call(rbind.data.frame,lapply(lapply(sitename, '[[', 'dataset'), '[[', 'site.data'))
   
@@ -170,7 +197,7 @@ get_site.download_list <- function(sitename, ...){
 #' @param sitename An object of class \code{geochronologic}.
 #' @param ... Arguments passed from the generic method, not used.
 #' @export
-get_site.geochronologic <- function(sitename, ...){
+get_site.geochronologic <- function(sitename, ...) {
   
   site <- sitename[[1]]$site.data
   
@@ -184,7 +211,7 @@ get_site.geochronologic <- function(sitename, ...){
 #' @param sitename An object of class \code{geochronologic_list}.
 #' @param ... Arguments passed from the generic method, not used.
 #' @export
-get_site.geochronologic_list <- function(sitename, ...){
+get_site.geochronologic_list <- function(sitename, ...) {
   
   site <- do.call(rbind.data.frame,lapply(sitename, function(y)y[[1]]$site.data))
   
