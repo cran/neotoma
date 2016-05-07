@@ -1,8 +1,8 @@
 Package: neotoma
 Type: Package
 Title: Access to the Neotoma Paleoecological Database Through R
-Version: 1.5.0
-Date: 2016-02-28
+Version: 1.5.1
+Date: 2016-05-04
 Author: Simon J. Goring [aut, cre], Gavin L. Simpson [aut], Jeremiah P. Marsicek
     [ctb], Karthik Ram [aut], Luke Sosalla [ctb]
 Authors@R: c(person(given = c("Simon", "J."), family = "Goring",
@@ -24,6 +24,6 @@ Imports: plyr, reshape2, jsonlite, httr, xml2
 Suggests: testthat, knitr
 RoxygenNote: 5.0.1
 NeedsCompilation: no
-Packaged: 2016-02-29 07:19:03 UTC; Simon Goring
+Packaged: 2016-05-06 21:35:16 UTC; Simon Goring
 Repository: CRAN
-Date/Publication: 2016-02-29 11:39:25
+Date/Publication: 2016-05-07 01:51:34
