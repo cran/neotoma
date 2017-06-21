@@ -11,7 +11,7 @@
 #' @param altmax Maximum site altitude (in m).
 #' @param loc A numeric vector c(lonW, latS, lonE, latN) representing the bounding box within which to search for sites.  The convention here is to use negative values for longitudes west of Grewnwich or longitudes south of the equator.
 #' @param gpid A character string or numeric value, must correspond to a valid geopolitical identity in the Neotoma Database.  Use get.tables('GeoPoliticalUnits') for a list of acceptable values, or link here: http://api.neotomadb.org/apdx/geopol.htm
-#' @param  ... Optional additional arugments
+#' @param  ... Optional additional argugments
 #'
 #' @author Simon J. Goring \email{simon.j.goring@@gmail.com}
 #' @return A data frame:
@@ -33,7 +33,10 @@
 #' main = 'Altitudinal Distribution of Neotoma Sites', xlab = 'Altitude (m)', log='x')
 #'
 #' #  Get site information from a dataset:
-#' nw.datasets <- get_dataset(loc = c(-140, 50, -110, 65), datasettype='pollen',taxonname='Pinus*')
+#' nw.datasets <- get_dataset(loc = c(-140, 50, -110, 65), 
+#'                            datasettype='pollen',
+#'                            taxonname='Pinus*')
+#'                            
 #' nw.sites <- get_site(nw.datasets)
 #'
 #' }

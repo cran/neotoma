@@ -17,7 +17,7 @@ get_site(sitename, altmin, altmax, loc, gpid, ...)
 
 \item{gpid}{A character string or numeric value, must correspond to a valid geopolitical identity in the Neotoma Database.  Use get.tables('GeoPoliticalUnits') for a list of acceptable values, or link here: http://api.neotomadb.org/apdx/geopol.htm}
 
-\item{...}{Optional additional arugments}
+\item{...}{Optional additional argugments}
 }
 \value{
 A data frame:
@@ -46,18 +46,20 @@ plot(density(all.sites$elev, from = 0, na.rm=TRUE),
 main = 'Altitudinal Distribution of Neotoma Sites', xlab = 'Altitude (m)', log='x')
 
 #  Get site information from a dataset:
-nw.datasets <- get_dataset(loc = c(-140, 50, -110, 65), datasettype='pollen',taxonname='Pinus*')
+nw.datasets <- get_dataset(loc = c(-140, 50, -110, 65), 
+                           datasettype='pollen',
+                           taxonname='Pinus*')
+                           
 nw.sites <- get_site(nw.datasets)
 
 }
-}
-\author{
-Simon J. Goring \email{simon.j.goring@gmail.com}
 }
 \references{
 Neotoma Project Website: http://www.neotomadb.org
 API Reference:  http://api.neotomadb.org/doc/resources/sites
 }
+\author{
+Simon J. Goring \email{simon.j.goring@gmail.com}
+}
 \keyword{IO}
 \keyword{connection}
-

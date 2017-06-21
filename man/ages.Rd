@@ -15,7 +15,7 @@ ages(obj, ...)
 \arguments{
 \item{obj}{an R object from which counts are to be extracted.}
 
-\item{...}{arugments passed to other methods.}
+\item{...}{argugments passed to other methods.}
 }
 \value{
 Either a data frame of ages or a list of such objects.
@@ -37,4 +37,3 @@ ostro.ages <- ages(ostro.dl)
 \author{
 Simon Goring
 }
-

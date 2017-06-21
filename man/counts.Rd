@@ -15,7 +15,7 @@ counts(obj, ...)
 \arguments{
 \item{obj}{an R object from which counts are to be extracted.}
 
-\item{...}{arugments passed to other methods.}
+\item{...}{argugments passed to other methods.}
 }
 \value{
 Either a data frame of counts or a list of such objects.
@@ -43,4 +43,3 @@ dim(marion.cnt)
 \author{
 Gavin Simpson
 }
-

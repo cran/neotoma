@@ -40,13 +40,17 @@
 #' @examples \dontrun{
 #' # Search for sites with "Thuja" pollen that are older than 8kyr BP and
 #' # that are on the west coast of North America:
-#' t8kyr.datasets <- get_dataset(taxonname='Thuja*', loc=c(-150, 20, -100, 60), ageyoung = 8000)
+#' t8kyr.datasets <- get_dataset(taxonname='Thuja*', 
+#'                               loc=c(-150, 20, -100, 60), 
+#'                               ageyoung = 8000)
 #'
 #' # Search for vertebrate fossils in Canada (gpid: 756) within the last 2kyr.
 #' gpids <- get_table(table.name='GeoPoliticalUnits')
 #' canID <- gpids[which(gpids$GeoPoliticalName == 'Canada'),1]
 #'
-#' v2kyr.datasets <- get_dataset(datasettype='vertebrate fauna', gpid=canID, ageold = 2000)
+#' v2kyr.datasets <- get_dataset(datasettype='vertebrate fauna', 
+#'                               gpid=canID, 
+#'                               ageold = 2000)
 #' }
 #' @references
 #' Neotoma Project Website: http://www.neotomadb.org
@@ -226,11 +230,26 @@ get_dataset.site <- function(x, ...) {
     }
   }
   
-  pull_site <- function(siteid) {
+  pull_site <- function(siteid, ...) {
+    
+    cl <- as.list(match.call())
+    cl[[1]] <- NULL
+    cl <- lapply(cl, eval, envir = parent.frame())
+    
+    #  Pass the parameters to param_check to make sure everything is kosher.
+    error_test <- param_check(cl)
+    if (error_test[[2]]$flag == 1) {
+      stop(paste0(unlist(error_test[[2]]$message), collapse = '\n  '))
+    } else {
+      cl <- error_test[[1]]
+    }
+    
+    cl <- lapply(cl, function(x){ if (length(x) > 1) {paste0(x, collapse = ',')} else {x} })
     
     base.uri <- 'http://api.neotomadb.org/v1/data/datasets/?siteid='
     
-    neotoma_content <- httr::content(httr::GET(paste0(base.uri, siteid)), as = "text")
+    neotoma_content <- httr::content(httr::GET(base.uri, query = cl), as = "text")
+    
     if (identical(neotoma_content, "")) stop("")
     aa <- jsonlite::fromJSON(neotoma_content, simplifyVector = FALSE)
 
@@ -303,7 +322,7 @@ get_dataset.site <- function(x, ...) {
     new.output
   }
   
-  new.output <- unlist(lapply(x$site.id, pull_site), recursive = FALSE)
+  new.output <- unlist(lapply(x$site.id, function(x){pull_site(siteid = x, ...)}), recursive = FALSE)
   
   class(new.output) <- c('dataset_list', 'list')
   

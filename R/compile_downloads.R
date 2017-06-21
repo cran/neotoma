@@ -16,9 +16,12 @@
 #' @examples \dontrun{
 #' #  Search for sites with "Thuja" pollen that are older than 8kyr BP and
 #' #  that are on the west coast of North America:
-#' t8kyr.datasets <- get_dataset(taxonname='Thuja*', loc=c(-150, 20, -100, 60), ageyoung = 8000)
+#' t8kyr.datasets <- get_dataset(taxonname='Thuja*', 
+#'                               loc=c(-150, 20, -100, 60), 
+#'                               ageyoung = 8000)
 #'
-#' #  Returns 3 records (as of 04/04/2013), get dataset for the first record, Gold Lake Bog.
+#' #  Returns 3 records (as of 04/04/2013), get dataset for the first record, 
+#' #  Gold Lake Bog.
 #' thuja.sites <- get_download(t8kyr.datasets)
 #'
 #' gold.p25 <- compile_taxa(thuja.sites, 'P25')
@@ -63,17 +66,25 @@ compile_downloads <- function(downloads) {
       if (is.null(x$sample.meta$age.younger)) x$sample.meta$age.younger <- NA
       if (is.null(x$dataset$site$lat)) x$dataset$site$lat <- NA
       if (is.null(x$dataset$site$long)) x$dataset$site$long <- NA
-
+      
+      if (!is.null(rownames(x$counts))) {
+        good_rows <- x$sample.meta$sample.id %in% as.numeric(rownames(x$counts))
+        good_counts <- as.character(x$sample.meta$sample.id[good_rows])
+      } else {
+        good_rows   <- rep(TRUE, nrow(x$sample.meta))
+        good_counts <- 1:nrow(x$sample.meta)
+      }
+      
       site.info <- data.frame(site.name = x$dataset$site$site.name,
-                              depth = x$sample.meta$depth,
-                              age = x$sample.meta$age,
-                              age.old = x$sample.meta$age.older,
-                              age.young = x$sample.meta$age.younger,
-                              date.type = x$sample.meta$age.type,
+                              depth = x$sample.meta$depth[good_rows],
+                              age = x$sample.meta$age[good_rows],
+                              age.old = x$sample.meta$age.older[good_rows],
+                              age.young = x$sample.meta$age.younger[good_rows],
+                              date.type = x$sample.meta$age.type[good_rows],
                               lat = x$dataset$site$lat,
                               long = x$dataset$site$long,
                               dataset = x$dataset$dataset.meta$dataset.id,
-                              x$counts)
+                              x$counts[good_counts,])
     }
     else{
       #  Dummy data for empty sites.

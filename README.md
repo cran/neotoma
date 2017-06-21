@@ -3,6 +3,7 @@ neotoma
 
 [![Build Status](https://api.travis-ci.org/ropensci/neotoma.png)](https://travis-ci.org/ropensci/neotoma)
 [![Build status](https://ci.appveyor.com/api/projects/status/t2xyqbs0d8h998cb/branch/master)](https://ci.appveyor.com/project/sckott/neotoma/branch/master)
+[![codecov.io](https://codecov.io/github/ropensci/neotoma/coverage.svg?branch=master)](https://codecov.io/github/ropensci/neotoma?branch=master)
 [![rstudio mirror downloads](http://cranlogs.r-pkg.org/badges/grand-total/neotoma)](https://github.com/metacran/cranlogs.app)
 [![cran version](http://www.r-pkg.org/badges/version/neotoma)](https://cran.r-project.org/package=neotoma)
 
@@ -60,6 +61,7 @@ More functions are available through the package help.  These represent the core
 + `get_chroncontrol` - Get chronological information used to build the age-depth model for the record. [API](http://api.neotomadb.org/doc/resources/chroncontrol)
 
 ### Recent Changes
++ 1.7.0: Added `plot_leaflet` to allow interactive exploration of downloaded Neotoma data.  Integrates with the Neotoma Explorer.  Minor bugfix for `get_download` to allow records to be sent to Neotoma and to be filtered.
 + 1.6.2: Improved the basic `plot` method based on tests against Tilia files in the Neotoma Holding Tank & built more robust interpolation in `read_bacon` so that age models without interpolated dates can still be imported. `browse` now opens multiple datastes in the Neotoma Explorer at once.
 + 1.6.1: New `Stratiplot` method, using the `analogue` package to plot dataset diagrams from `download` and `download_list` objects, bug fixes for `write_agefile` and a new function, `read_bacon`, to read in and integrate Bacon chronologies into `download` objects.
 + 1.6.0: Support for vector inputs in the `gpid` selection. Added a `get_closest` function to find the closest sample site. Mostly clean-up of reported bugs by users. Revised examples for faster check speed.
@@ -68,7 +70,7 @@ More functions are available through the package help.  These represent the core
 + 1.4.1: Small changes to `get_geochron` to address bug reports and improve object `printing` methods.
 + 1.4.0: Added `plot` method for datasets, sites & downloads.  Fixed a bug with records missing chronologies.
 
-### A few examples
+### A few examples:
 
 #### Find the distribution of sites with Mammoth fossils in Neotoma
 
@@ -140,11 +142,14 @@ Simple paleo-data visualization in R, linking the `rioja`, `neotoma` and `dplyr`
 
 ![gif](inst/img/inkspot_neotoma.gif)
 
+#### Find all site elevations in California:
+
+Found at [Simon Goring's gist.](https://gist.github.com/SimonGoring/6a2ba1d55a3a7f78723b37e896b55b70).
+
+#### Match all Neotoma taxa to external databases using `taxize`:
+
+Found at [Simon Goring's gist.](https://gist.github.com/SimonGoring/24fb1228204f768f3f0020f37060db18).
+
 ### `neotoma` Workshops
 
 We have provided a set of educational tools through the [NeotomaDB](http://github.com/neotomaDB) GitHub repository in the [Workshops](http://github.com/NeotomaDB/Workshops) repository.  These are free to share, and can be modified as needed.
-
-###
----
-
-[![](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
