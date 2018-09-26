@@ -9,7 +9,7 @@
 #' single sites.
 #'
 #' @importFrom plyr ldply
-#' @param downloads A download_list as returned by \code{\link{get_download}}, or mutliple downloads joined in a list.
+#' @param downloads A download_list as returned by \code{\link{get_download}}, or multiple downloads joined in a list.
 #' @author Simon J. Goring \email{simon.j.goring@@gmail.com}
 #' @return This command returns a data frame.
 #'
@@ -84,7 +84,7 @@ compile_downloads <- function(downloads) {
                               lat = x$dataset$site$lat,
                               long = x$dataset$site$long,
                               dataset = x$dataset$dataset.meta$dataset.id,
-                              x$counts[good_counts,])
+                              as.data.frame(x$counts)[good_counts,])
     }
     else{
       #  Dummy data for empty sites.
@@ -101,7 +101,6 @@ compile_downloads <- function(downloads) {
     }
     site.info
   }
-
 
   if (inherits(downloads, 'download_list')) {
       site.info <- plyr::ldply(downloads, down.to.df)

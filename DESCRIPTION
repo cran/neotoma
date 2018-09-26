@@ -1,10 +1,14 @@
 Package: neotoma
 Type: Package
 Title: Access to the Neotoma Paleoecological Database Through R
-Version: 1.7.0
-Date: 2017-06-21
-Author: Simon J. Goring [aut, cre], Gavin L. Simpson [aut], Jeremiah P. Marsicek
-    [ctb], Karthik Ram [aut], Luke Sosalla [ctb]
+Version: 1.7.2
+Date: 2018-09-17
+Encoding: UTF-8
+Author: Simon J. Goring [aut, cre],
+  Gavin L. Simpson [aut],
+  Jeremiah P. Marsicek [ctb],
+  Karthik Ram [aut],
+  Luke Sosalla [ctb]
 Authors@R: c(person(given = c("Simon", "J."), family = "Goring",
     role = c("aut", "cre"), email = "goring@wisc.edu"),
     person(given = c("Gavin", "L."), family = "Simpson", role = "aut"),
@@ -20,10 +24,10 @@ License: MIT + file LICENSE
 URL: https://github.com/ropensci/neotoma
 BugReports: https://github.com/ropensci/neotoma/issues
 Depends: R (>= 2.10)
-Imports: plyr, reshape2, jsonlite, httr, xml2, analogue, leaflet
+Imports: plyr, reshape2, jsonlite, httr, xml2, analogue, leaflet, dplyr
 Suggests: testthat, knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 NeedsCompilation: no
-Packaged: 2017-06-21 20:48:49 UTC; simon
+Packaged: 2018-09-26 21:20:30 UTC; simon
 Repository: CRAN
-Date/Publication: 2017-06-21 23:22:06 UTC
+Date/Publication: 2018-09-26 21:50:03 UTC

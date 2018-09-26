@@ -4,8 +4,8 @@
 \alias{get_dataset.default}
 \title{Obtain dataset information from the Neotoma Paleoecological Database or an existing object.}
 \usage{
-\method{get_dataset}{default}(x, datasettype, piid, altmin, altmax, loc, gpid,
-  taxonids, taxonname, ageold, ageyoung, ageof, subdate)
+\method{get_dataset}{default}(x, datasettype, piid, altmin, altmax, loc,
+  gpid, taxonids, taxonname, ageold, ageyoung, ageof, subdate)
 }
 \arguments{
 \item{x}{A numeric value corresponding to the site ID.}
@@ -18,7 +18,7 @@
 
 \item{altmax}{Numeric value indicating the maximum altitude for the site (can be used alone or with \code{altmin}).}
 
-\item{loc}{A numeric vector \code{c(lonW, latS, lonE, latN)} representing the bounding box within which to search for sites.  The convention here is to use negative values for longitudes west of Grewnwich or longitudes south of the equator}
+\item{loc}{A numeric vector \code{c(lonW, latS, lonE, latN)} representing the bounding box within which to search for sites.  The convention here is to use negative values for longitudes west of Greenwich or longitudes south of the equator}
 
 \item{gpid}{A character string or numeric value, must correspond to a valid geopolitical identity in the Neotoma Database.  Use get.tables('GeoPoliticalUnits') for a list of acceptable values, or link here: \url{http://api.neotomadb.org/apdx/geopol.htm}}
 
